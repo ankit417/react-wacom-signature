@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { urltoFile } from "../utils/urlToFile.util";
-// import SIGNATURE from "../../../assets/icons/sign.png";
 
 /**
  *
@@ -79,7 +78,6 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
     };
   }
 
-  ///////////////changed here
   function Button() {
     this.Bounds = 0; // in Screen coordinates
     this.Text = 0;
@@ -120,11 +118,9 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
       tablet
         .setInkingMode(p.InkingMode.InkingMode_Off)
         .then(function (message) {
-          // console.log("received: " + JSON.stringify(message));
           return tablet.endCapture();
         })
         .then(function (message) {
-          // console.log("received: " + JSON.stringify(message));
           if (m_imgData !== null) {
             return m_imgData.remove();
           } else {
@@ -132,16 +128,13 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
           }
         })
         .then(function (message) {
-          //console.log("received: " + JSON.stringify(message));
           m_imgData = null;
           return tablet.setClearScreen();
         })
         .then(function (message) {
-          //console.log("received: " + JSON.stringify(message));
           return tablet.disconnect();
         })
         .then(function (message) {
-          //console.log("received: " + JSON.stringify(message));
           tablet = null;
           // clear canvas
           clearCanvas(canvas, ctx);
@@ -200,16 +193,13 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
         );
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         intf = new window.WacomGSS.STU.UsbInterface();
         return intf.Constructor();
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         return intf.connect(m_usbDevices[0], true);
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         //console.log(0 == message.value ? "connected!" : "not connected");
         if (0 == message.value) {
           m_encH = new window.WacomGSS.STU.EncryptionHandler(
@@ -219,52 +209,42 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
         }
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         m_encH2Impl = new window.encryptionHandler2();
         m_encH2 = new window.WacomGSS.STU.EncryptionHandler2(m_encH2Impl);
         return m_encH2.Constructor();
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         tablet = new window.WacomGSS.STU.Tablet();
         return tablet.Constructor(intf, m_encH, m_encH2);
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         intf = null;
         return tablet.getInkThreshold();
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         m_inkThreshold = message;
         return tablet.getCapability();
       })
       .then(function (message) {
-        //console.log("received: m capability " + JSON.stringify(message));
         m_capability = message;
         setStuWidth(m_capability.screenWidth);
         setStuHeight(m_capability.screenHeight);
-        // createModalWindow(10000, m_capability.screenHeight);
         createModalWindow(m_capability.screenWidth, m_capability.screenHeight);
         return tablet.getInformation();
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         return tablet.getInkThreshold();
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         return tablet.getProductId();
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         return window.WacomGSS.STU.ProtocolHelper.simulateEncodingFlag(
           message,
           m_capability.encodingFlag
         );
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         var encodingFlag = message;
         if ((encodingFlag & p.EncodingFlag.EncodingFlag_24bit) != 0) {
           return tablet.supportsWrite().then(function (message) {
@@ -284,11 +264,9 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
         }
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         return tablet.isSupported(p.ReportId.ReportId_EncryptionStatus); // v2 encryption
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         m_usingEncryption = message;
         // if the encryption script is missing turn off encryption regardless
         if (typeof window.sjcl == "undefined") {
@@ -298,13 +276,11 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
         return tablet.getDHprime();
       })
       .then(function (dhPrime) {
-        //console.log("received: " + JSON.stringify(dhPrime));
         return window.WacomGSS.STU.ProtocolHelper.supportsEncryption_DHprime(
           dhPrime
         ); // v1 encryption
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         m_usingEncryption = message ? true : m_usingEncryption;
         return tablet.setClearScreen();
       })
@@ -322,11 +298,9 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
         return message;
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         return tablet.isSupported(p.ReportId.ReportId_PenDataOptionMode);
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         if (message) {
           return tablet.getProductId().then(function (message) {
             var penDataOptionMode = p.PenDataOptionMode.PenDataOptionMode_None;
@@ -353,7 +327,6 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
         }
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         addButtons();
         var canvasImage = canvas.toDataURL("image/png");
         return window.WacomGSS.STU.ProtocolHelper.resizeAndFlatten(
@@ -373,7 +346,6 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
       })
       .then(function (message) {
         m_imgData = message;
-        //console.log("received: " + JSON.stringify(message));
         return tablet.writeImage(m_encodingMode, message);
       })
       .then(function (message) {
@@ -383,11 +355,9 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
         return message;
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         return tablet.setInkingMode(p.InkingMode.InkingMode_On);
       })
       .then(function (message) {
-        //console.log("received: " + JSON.stringify(message));
         var reportHandler =
           new window.WacomGSS.STU.ProtocolHelper.ReportHandler();
         lastPoint = { x: 0, y: 0 };
@@ -409,13 +379,9 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
           processPoint(report.penData[1], canvas, ctx);
         };
 
-        var log = function (report) {
-          //console.log("report: " + JSON.stringify(report));
-        };
+        var log = function (report) {};
 
-        var decrypted = function (report) {
-          //console.log("decrypted: " + JSON.stringify(report));
-        };
+        var decrypted = function (report) {};
         m_penData = new Array();
         reportHandler.onReportPenData = penData;
         reportHandler.onReportPenDataOption = penData;
@@ -690,11 +656,6 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
       .getElementById("signatureWindow")
       .getBoundingClientRect();
 
-    console.log(
-      "on canvas click click",
-      posX - sigWindow.x,
-      posY - sigWindow.y - window.scrollY
-    );
     for (var i = 0; i < m_btns.length; i++) {
       //   console.log("sig window", sigWindow);
       if (
