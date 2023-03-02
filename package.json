@@ -1,0 +1,19 @@
+{
+  "name": "react-wacom-signature",
+  "version": "1.0.0",
+  "description": "react wacom signature ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankit417/react-wacom-signature.git"
+  },
+  "author": "Ankit Acharya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ankit417/react-wacom-signature/issues"
+  },
+  "homepage": "https://github.com/ankit417/react-wacom-signature#readme"
+}
