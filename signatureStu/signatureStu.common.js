@@ -47,11 +47,6 @@ export const SignatureStu = ({ stuImage, signature, hideButton = false }) => {
       console.log("SigCaptX Web Service: ready");
     } else {
       console.log("SigCaptX Web Service: not connected");
-      // if (retry < 5) {
-      //   setTimeout(checkForSigCaptX, 1000);
-      // } else {
-      //   alert("Unable to establish connection to SigCaptX");
-      // }
     }
   }
 
